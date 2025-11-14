@@ -1,0 +1,65 @@
+import { CartWithItemsResponse } from "./Icart";
+import { WithoutUserOrderResponse } from "./IOrder";
+import { Wishlist } from "./IWishlist";
+
+export interface user{
+    id: number;
+    username: string;
+    email: string;
+    phone: string;
+    created_at: string;
+    updated_at: string;
+    last_login: string;
+    is_active: boolean;
+}
+
+export interface userReq {
+    username: string;
+    email: string;
+    phone: string;
+    password: string;
+    is_active?: boolean;
+}
+
+
+export interface userLoginReq {
+    email: string;
+    password: string;
+}
+
+
+export interface UserCartResponse {
+  id: number;
+  username: string;
+  email: string;
+  phone: string;
+  created_at: string;
+  updated_at: string;
+  last_login: string;
+  is_active: boolean;
+  cart: CartWithItemsResponse;
+}
+
+export interface UserOrderResponse {
+  id: number;
+  username: string;
+  email: string;
+  phone: string;
+  created_at: string;
+  updated_at: string;
+  last_login: string;
+  is_active: boolean;
+  orders: WithoutUserOrderResponse[];
+}
+
+export interface UserWishlistResponse {
+  id: number;
+  username: string;
+  email: string;
+  phone: string;
+  created_at: string;
+  updated_at: string;
+  last_login: string;
+  is_active: boolean;
+  wishList: Wishlist[];
+}

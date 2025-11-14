@@ -1,0 +1,82 @@
+{
+    "users": [
+      {
+        "ID": 1,
+        "Name": "John Doe",
+        "Email": "johndoe@example.com",
+        "password" : "Pass",
+        "type" : "N"
+      },
+      {
+        "ID": 2,
+        "Name": "Jane Smith",
+        "Email": "janesmith@example.com",
+        "password" : "Pass#12345",
+        "type" : "N"
+      },
+      {
+        "ID": 3,
+        "Name": "Michael Brown",
+        "Email": "michaelbrown@example.com",
+        "password" : "Pass#12345",
+        "type" : "N"
+      },
+      {
+        "ID": 4,
+        "Name": "Emily Davis",
+        "Email": "emilydavis@example.com",
+        "password" : "Pass#12345",
+        "type" : "N"
+      },
+      {
+        "ID": 5,
+        "Name": "David Wilson",
+        "Email": "davidwilson@example.com",
+        "password" : "Pass#12345",
+        "type" : "N"
+      },
+      {
+        "ID": 6,
+        "Name": "Sophia Martinez",
+        "Email": "sophiamartinez@example.com",
+        "password" : "Pass#12345",
+        "type" : "N"
+      },
+      {
+        "ID": 7,
+        "Name": "James Anderson",
+        "Email": "jamesanderson@example.com",
+        "password" : "Pass#12345",
+        "type" : "N"
+      },
+      {
+        "ID": 8,
+        "Name": "Olivia Thomas",
+        "Email": "oliviathomas@example.com",
+        "password" : "Pass#12345",
+        "type" : "N"
+      },
+      {
+        "ID": 9,
+        "Name": "William Johnson",
+        "Email": "williamjohnson@example.com",
+        "password" : "Pass#12345",
+        "type" : "N"
+      },
+      {
+        "ID": 10,
+        "Name": "Ava White",
+        "Email": "avawhite@example.com",
+        "password" : "Pass#12345",
+        "type" : "N"
+      },
+      {
+        "ID": 11,
+        "Name": "Admin",
+        "Email": "Admin@example.com",
+        "password" : "admin",
+        "type" : "A"
+      }
+    ]
+  }
+  

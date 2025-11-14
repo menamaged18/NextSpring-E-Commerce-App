@@ -1,0 +1,68 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "imagePath": "/Cars/CLECoupe.jpg",
+      "name": "Mercedes",
+      "description": "The Mercedes-Benz CLE Coupe is a relatively new addition to the Mercedes-Benz lineup, designed to replace both the C-Class Coupe and E-Class Coupe, effectively consolidating Mercedes' mid-size coupe offerings. It combines elements of both, aiming for a blend of sporty design, luxurious comfort, and advanced technology.",
+      "price": 1000000,
+      "category": "cars"
+    },
+    {
+      "id": 2,
+      "imagePath": "/Cars/LamboHuracan.jpg",
+      "name": "Lamborgini",
+      "description": "The Lamborghini Huracán is a high-performance sports car produced by the Italian automotive manufacturer Lamborghini. It was introduced in 2014 as the successor to the highly successful Lamborghini Gallardo and became one of the brand's most iconic and best-selling models. Production of the Huracán series concluded in 2024, making way for its successor.",
+      "price": 5000000,
+      "category": "cars"
+    },
+    {
+      "id": 3,
+      "imagePath": "/Cars/ferrari.jpg",
+      "name": "Ferrari la Ferrari",
+      "description": "The Ferrari LaFerrari, whose name means \"The Ferrari\" in Italian, is a limited-production hybrid hypercar and the spiritual successor to the Enzo. It represents the pinnacle of Ferrari's road car technology, combining a naturally aspirated 6.3-liter V12 engine with an electric motor for a total output of 949 hp. This F1-derived HY-KERS hybrid system allows for blistering performance, with a 0-100 km/h time of under 3 seconds and a top speed exceeding 350 km/h (217 mph). Its striking design features active aerodynamics and a lightweight carbon fiber chassis, all aimed at delivering the most extreme performance ever seen in a road-going Ferrari.",
+      "price": 2000000,
+      "category": "cars"
+    },
+    {
+      "id": 4,
+      "imagePath": "/Cars/bmw_i8.jpg",
+      "name": "BMW",
+      "description": "BMW i8 was a groundbreaking plug-in hybrid sports car that blended futuristic design with advanced powertrain technology. Produced from 2014 to 2020, it was BMW's foray into the electrified performance vehicle market.",
+      "price": 800000,
+      "category": "cars"
+    },
+    {
+      "id": 5,
+      "imagePath": "/Phones/iphone16.jpeg",
+      "name": "Iphone16",
+      "description": "Iphone",
+      "price": 1200,
+      "category": "phones"
+    },
+    {
+      "id": 6,
+      "imagePath": "/Phones/iphone16promax.jpeg",
+      "name": "iphone 16 pro max",
+      "description": "Iphone",
+      "price": 1000,
+      "category": "phones"
+    },
+    {
+      "id": 7,
+      "imagePath": "/Phones/SamsungS24Ultra.jpeg",
+      "name": "Samsung S24 Ultra",
+      "description": "Samsung S24 Ultra",
+      "price": 1200,
+      "category": "phones"
+    },
+    {
+      "id": 8,
+      "imagePath": "/Phones/SamsungZfold.jpeg",
+      "name": "Samsung Z fold",
+      "description": "Samsung Z fold",
+      "price": 1800,
+      "category": "phones"
+    }
+  ]
+}
