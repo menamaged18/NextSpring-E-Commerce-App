@@ -1,6 +1,7 @@
 package com.store.ecommerce.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -48,7 +49,7 @@ public class Product {
     }
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Reviews> reviews;
+    private List<Reviews> reviews = new ArrayList<>();
 
 }
 

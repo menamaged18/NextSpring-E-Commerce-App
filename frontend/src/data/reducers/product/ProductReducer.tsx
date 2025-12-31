@@ -185,7 +185,7 @@ export const uploadImage = async (file: File, productId: number) => {
   const formData = new FormData();
   formData.append("file", file);
 
-  await fetch(`${base}/products/${productId}/image`, {
+  await fetch(`${base}product/${productId}/image`, {
     method: "POST",
     body: formData,
   });

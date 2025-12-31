@@ -71,7 +71,7 @@ public class ProductController {
         return new ProductResponse(prodServ.EditProduct(id, newProduct));
     }
 
-    @PostMapping(value = "/products/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadImage(
             @PathVariable Long id,
             @RequestParam("file") MultipartFile file
@@ -79,7 +79,6 @@ public class ProductController {
         String imageUrl = prodServ.saveImage(id, file);
         return ResponseEntity.ok(imageUrl);
     }
-
 
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
