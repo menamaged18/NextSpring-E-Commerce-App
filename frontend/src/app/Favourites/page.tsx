@@ -19,8 +19,8 @@ function Page() {
 
   const overallLoading = productsLoading || wishlistLoading;
 
-  const incart = isAuthenticated && selectedUser?.username 
-    ? getUserCart(selectedUser?.username) : getGuestCart();
+  const incart = isAuthenticated && selectedUser?.name 
+    ? getUserCart(selectedUser?.name) : getGuestCart();
 
   const previsAuthenticated = usePrevious(isAuthenticated);
 
@@ -65,7 +65,7 @@ function Page() {
       dispatch(getProductsByIds(guestFavs));
     }
     
-  }, [isAuthenticated, selectedUser?.username, dispatch]);
+  }, [isAuthenticated, selectedUser?.name, dispatch]);
 
   const handleFavsToggle = () => {
     if (isAuthenticated) {

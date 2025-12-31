@@ -11,7 +11,6 @@ interface userState {
   userCart: UserCartResponse | null;
   userOrders: UserOrderResponse | null;
   userWishlist: UserWishlistResponse | null;
-  userType: string;
   isAuthenticated: boolean; 
   loading: boolean;
   error: string | null;
@@ -23,7 +22,6 @@ const initialState: userState = {
   userCart: null,
   userOrders: null,
   userWishlist: null,
-  userType: "Guest",
   isAuthenticated: false,
   loading: false,
   error: null,

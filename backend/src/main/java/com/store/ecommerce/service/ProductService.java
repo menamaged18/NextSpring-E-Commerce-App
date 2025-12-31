@@ -1,12 +1,19 @@
 package com.store.ecommerce.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import com.store.ecommerce.model.Product;
 import com.store.ecommerce.repository.ProductRepo;
@@ -102,6 +109,28 @@ public class ProductService {
         
         productRepo.save(product);
     }
+
+    public String saveImage(Long productId, MultipartFile file) {
+        try {
+            Product product = productRepo.findById(productId)
+                    .orElseThrow(() -> new RuntimeException("Product not found"));
+
+            String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+            Path path = Paths.get("uploads/products/" + fileName);
+
+            Files.createDirectories(path.getParent());
+            Files.write(path, file.getBytes());
+
+            String imageUrl = "http://localhost:8080/uploads/products/" + fileName;
+            product.setImageUrl(imageUrl);
+
+            productRepo.save(product);
+            return imageUrl;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to save image", e);
+        }
+    }
+
 
     public void updateStock(Product product, int newQuantity){
         updateStock(product, newQuantity, 0);

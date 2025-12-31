@@ -163,6 +163,17 @@ export const editProduct = createAsyncThunk('products/edit',
   }
 })
 
+export const uploadImage = async (file: File, productId: number) => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  await fetch(`${base}/products/${productId}/image`, {
+    method: "POST",
+    body: formData,
+  });
+};
+
+
 export const productReducer = createSlice({
   name: "product",
   initialState,

@@ -16,7 +16,7 @@ const AddProductForm = () => {
     quantity: 0,
     weight: 0,
   }
-  const userType = useAppSelector( (state) => state.user.staticData.type );
+  const userType = useAppSelector( (state) => state.user.selectedUser?.userType || "Guest" );
   const {error} = useAppSelector( state => state.BEProduct)
   const [productData, setProductData] = useState<ProductReq>(intializeProduct);
 
@@ -43,7 +43,7 @@ const AddProductForm = () => {
 
   return (
     <div className="flex items-center justify-center p-6 m-2">
-    {userType === "A" && 
+    {userType === "Admin" && 
       <div className="bg-white p-8 sm:p-10 rounded-2xl shadow-xl w-full max-w-xl">
         <h1 className="text-3xl font-extrabold text-center text-gray-900 mb-8">
           Add New Product 🛍️
@@ -202,7 +202,7 @@ const AddProductForm = () => {
         </form>
       </div>
     }
-    {(userType === "N" || userType === " ") && 
+    {(userType === "Normal" || userType === "Guest") && 
         <div>
             You have to be an admin To access this page!!
         </div>

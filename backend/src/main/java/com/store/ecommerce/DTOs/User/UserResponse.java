@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 public class UserResponse {
     private Long id;
-    private String username;
+    private String name;
     private String email;
     private String phone;
     private LocalDateTime created_at;
@@ -26,7 +26,7 @@ public class UserResponse {
     public UserResponse(CustomUser _CustomUser){
         this.id = _CustomUser.getId();
         this.email = _CustomUser.getEmail();
-        this.username = _CustomUser.getName();
+        this.name = _CustomUser.getName();
         this.phone = _CustomUser.getPhone();
         this.created_at = _CustomUser.getCreated_at();
         this.updated_at = _CustomUser.getUpdated_at();

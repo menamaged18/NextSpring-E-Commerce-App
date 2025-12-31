@@ -13,9 +13,10 @@ import FavouritesElement from "./NavBarElements/FavouritesElement";
 import CartElement from "./NavBarElements/CartElement";
 import {useAppSelector} from "@/Hooks/reduxHooks";
 import AddProductElement from "./NavBarElements/AddProductElement";
+import { UserType } from "@/interfaces/Iuser";
 
 function Navbar() {
-  const userType = useAppSelector( (state) => state.user.userType );
+  const userType = useAppSelector( (state) => state.user.selectedUser?.userType ?? 'Guest');
   const [isOpen, setIsOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const navbarHeight = 64; // Height of the navbar 
@@ -32,7 +33,9 @@ function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const renderNavItems = (userType: string) => {
+  // console.log(userType)
+
+  const renderNavItems = (userType: UserType | string) => {
     if (userType === "Normal" || userType === "Guest") {
       return (
         <>

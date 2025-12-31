@@ -38,7 +38,7 @@ public class CustomUser {
     private LocalDateTime last_login;
     private Boolean is_active;
     @Enumerated(EnumType.STRING)
-    private UserType userType;
+    private UserType userType = UserType.Normal;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore                 // <- prevent serialization of user.orders

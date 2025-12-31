@@ -31,7 +31,7 @@ const colors = [
 
 function Card({product, height, width, isFav, inCart, onFavToggled}: Iprops) {
   const dispatch = useAppDispatch();
-  const userType = useAppSelector( (state) => state.user.userType );
+  const userType = useAppSelector( (state) => state.user.selectedUser?.userType || "Guest" );
   const [selectedColor, setSelectedColor] = useState<string>(colors[0].name);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
