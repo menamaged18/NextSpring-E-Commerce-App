@@ -72,6 +72,7 @@ export default function Home() {
     dispatch(fetchProducts());
   }, [dispatch]);
 
+
   if (overallLoading) {
     return <div className="container mx-auto"><PageLoading fullScreen={false}/></div>;
   }

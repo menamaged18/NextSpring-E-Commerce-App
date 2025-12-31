@@ -4,9 +4,10 @@ import ActionButtons from "@/components/ActionButtons/ActionButtons";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from 'react';
-import {useAppSelector, useAppDispatch} from "@/Hooks/reduxHooks";
+import {useAppDispatch, useAppSelector} from "@/Hooks/reduxHooks";
 // import { deleteProduct } from '@/data/reducers/ProductReducers';
 import AdminView from "./AdminView";
+import { deleteProduct } from "@/data/reducers/product/ProductReducer";
 
 interface Iprops {
   product: Product | ProductSimpleResponse
@@ -36,8 +37,7 @@ function Card({product, height, width, isFav, inCart, onFavToggled}: Iprops) {
   const [isEditOpen, setIsEditOpen] = useState(false);
 
   const handleDelete = (productId: number) => {
-    // dispatch(deleteProduct(productId));
-    console.log(`deleted product with id: ${productId}`)
+    dispatch(deleteProduct(productId));
   };
 
   const handleColorClick = (event: React.MouseEvent, colorName: string) => {
@@ -47,7 +47,9 @@ function Card({product, height, width, isFav, inCart, onFavToggled}: Iprops) {
 
   // Calculate dynamic values based on card height
   const imageAspectRatio = height > 300 ? 0.6 : 0.5; 
-  const descriptionLines = height > 300 ? 5 : 1; 
+  const descriptionLines = height > 300 ? 5 : 1;
+  
+  // console.log(product.imageUrl)
 
   return (
   <div 
@@ -67,7 +69,7 @@ function Card({product, height, width, isFav, inCart, onFavToggled}: Iprops) {
           style={{ paddingBottom: `${imageAspectRatio * 100}%` }}
         >
           <Image
-            src="/stockImage.jpg"
+            src={product.imageUrl ?? "/stockImage.jpg"}
             alt="card image"
             fill
             style={{ objectFit: 'cover' }}

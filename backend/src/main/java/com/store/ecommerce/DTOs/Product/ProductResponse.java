@@ -24,6 +24,7 @@ public class ProductResponse {
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
     private Boolean is_active;
+    private String imageUrl;
     private List<ReviewResponse> reviews;
 
     public ProductResponse(Product product){
@@ -39,6 +40,9 @@ public class ProductResponse {
         this.created_at = product.getCreated_at();
         this.updated_at = product.getUpdated_at();
         this.is_active = product.getIs_active();
-        this.reviews = product.getReviews().stream().map(ReviewResponse::new).toList();
+        this.imageUrl = product.getImageUrl();
+        if (!product.getReviews().isEmpty()) {
+            this.reviews = product.getReviews().stream().map(ReviewResponse::new).toList();
+        }
     }
 }

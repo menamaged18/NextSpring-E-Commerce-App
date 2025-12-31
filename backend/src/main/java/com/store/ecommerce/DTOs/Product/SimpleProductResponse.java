@@ -16,6 +16,7 @@ public class SimpleProductResponse {
     private String brand;
     private Double weight;
     private Boolean is_active;
+    private String imageUrl;
 
     public SimpleProductResponse(Product product){
         this.id = product.getId();
@@ -26,5 +27,6 @@ public class SimpleProductResponse {
         this.brand = product.getBrand();
         this.weight = product.getWeight();
         this.is_active = product.getIs_active();
+        this.imageUrl = product.getImageUrl();
     }
 }

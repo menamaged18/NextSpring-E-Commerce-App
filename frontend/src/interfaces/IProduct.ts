@@ -14,6 +14,7 @@ export interface Product {
   updated_at: string | null;
   is_active: boolean;
   reviews: ReviewItem[];
+  imageUrl: string;
 }
 
 export interface ProductSimpleResponse{
@@ -26,6 +27,7 @@ export interface ProductSimpleResponse{
   brand: string;
   weight: number;
   is_active: boolean;
+  imageUrl: string;
 }
 
 export interface ProductReq {

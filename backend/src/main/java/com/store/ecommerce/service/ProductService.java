@@ -115,8 +115,12 @@ public class ProductService {
             Product product = productRepo.findById(productId)
                     .orElseThrow(() -> new RuntimeException("Product not found"));
 
+
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
             Path path = Paths.get("uploads/products/" + fileName);
+
+            System.out.println("file passed: " +  fileName);
+
 
             Files.createDirectories(path.getParent());
             Files.write(path, file.getBytes());

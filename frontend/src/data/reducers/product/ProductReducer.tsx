@@ -1,5 +1,6 @@
 import { Product, ProductReq, productEditParams} from "@/interfaces/IProduct";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { METHODS } from "http";
 
 const base = "http://localhost:8080/";
 
@@ -159,7 +160,24 @@ export const editProduct = createAsyncThunk('products/edit',
       return rejectWithValue(error.message);
     }
     return rejectWithValue('An unknown error occurred');
+  }
+})
 
+export const deleteProduct = createAsyncThunk('products/delete', async (productId: number, {rejectWithValue}) =>{
+  try{
+    const response = await fetch(`${base}product/delete/${productId}`, {
+        method: "DELETE"
+      }
+    );
+    if(!response.ok){
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return productId;
+  }catch(e){
+    if (e instanceof Error) {
+      return rejectWithValue(e.message);
+    }
+    return rejectWithValue('An unknown error occurred');
   }
 })
 
@@ -240,6 +258,13 @@ export const productReducer = createSlice({
         // if (state.selectedProduct?.id === action.payload.id) {
         //   state.selectedProduct = action.payload;
         // }
+      })
+      // delete product
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        // update the state
+        state.products = state.products.filter(product => product.id != action.payload);
       })
 
       // all pending states
