@@ -15,12 +15,27 @@ function Page() {
   const { products, loading: productsLoading } = useAppSelector((state) => state.BEProduct);
   const { selectedUser, isAuthenticated } = useAppSelector(state => state.user);
   const {items, loading: wishlistLoading} = useAppSelector(state => state.wishlist);
+  const {cart, loading: cartLoading} = useAppSelector(state => state.cart);
+
   // const userType = useAppSelector( (state) => state.user.userType );
 
   const overallLoading = productsLoading || wishlistLoading;
 
+  // for static product list json one
   const incart = isAuthenticated && selectedUser?.name 
     ? getUserCart(selectedUser?.name) : getGuestCart();
+
+  // for products that in the database(DB)
+  const isInCart = (productId: number): boolean => {
+    let flag = false;
+    // if there is a cart and the cart contians items then return that items
+    if (isAuthenticated && cart?.items) {
+      flag = cart?.items.some(item => item.product.id === productId);
+    }else{
+      flag = getGuestCart()? getGuestCart().includes(productId) : false;
+    }
+    return flag;
+  }
 
   const previsAuthenticated = usePrevious(isAuthenticated);
 
@@ -108,7 +123,7 @@ function Page() {
             height={380}
             width={250}
             isFav={true}
-            inCart={incart.includes(product.id)}
+            inCart={isInCart(product.id)}
             onFavToggled={handleFavsToggle}
           />
         ))}

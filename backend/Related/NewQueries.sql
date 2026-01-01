@@ -5,6 +5,8 @@ use ecommerce;
 
 select * from custom_user;
 
+DELETE FROM custom_user;
+-- First, insert users
 INSERT INTO custom_user (name, email, password, phone, user_type, is_active) 
 VALUES 
 ('Admin User', 'admin@example.com', 'pass', '1234567890', 'Admin', TRUE),
@@ -15,4 +17,4 @@ select * from custom_user;
 
 SHOW CREATE TABLE custom_user;
 
-select * from orders;
+select * from product;

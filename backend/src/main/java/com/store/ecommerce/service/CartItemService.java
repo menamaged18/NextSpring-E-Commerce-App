@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.store.ecommerce.model.Cart;
@@ -13,18 +14,15 @@ import com.store.ecommerce.repository.CartItemRepo;
 
 @Service
 public class CartItemService {
-    CartItemRepo cartItemRepo;
-    CartService cartService;
-    ProductService productService;
+    @Autowired
+    private CartItemRepo cartItemRepo;
+    @Autowired
+    private CartService cartService;
+    @Autowired
+    private ProductService productService;
 
-    public CartItemService(CartItemRepo _CartItemRepo, CartService _cartService, ProductService _productService){
-        this.cartItemRepo = _CartItemRepo;
-        this.cartService = _cartService;
-        this.productService = _productService;
-    }
-
-    public CartItem addItemToCart(Long cartId, Long productId, int quantity) {
-        Cart cart = cartService.getCardById(cartId);
+    public CartItem addItemToCart(Long userId, Long productId, int quantity) {
+        Cart cart = cartService.getCartByUserId(userId);
         Product product = productService.returnProductById(productId);
 
         Optional<CartItem> existingItemOpt = cartItemRepo.findByCartAndProduct(cart, product);

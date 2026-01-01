@@ -31,8 +31,8 @@ const handleAsyncError = (error: unknown, rejectWithValue: (value: string) => an
   return rejectWithValue('An unknown error occurred');
 };
 
-// Async thunks
-export const fetchUserCart = createAsyncThunk(
+// Async thunks 
+export const fetchUserCart = createAsyncThunk( 
   'cart/fetchUserCart',
   async (userId: number, { rejectWithValue }) => {
     try {

@@ -45,9 +45,9 @@ const handleAsyncError = (error: unknown, rejectWithValue: (value: string) => an
 // Async thunks
 export const addItemToCart = createAsyncThunk(
   'cartItem/add',
-  async ({ cartId, productId, quantity }: CartItemRequest & { cartId: number }, { rejectWithValue }) => {
+  async ({ userId, productId, quantity }: CartItemRequest & { userId: number }, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${base}/cart-items/add/${cartId}`, {
+      const response = await fetch(`${base}/cart-items/add/${userId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -129,17 +129,18 @@ export const fetchCartItemById = createAsyncThunk(
 
 export const mergeUserCartWithGuestCart = createAsyncThunk(
   'wishlist/merge',
-  async (cartId: number, { dispatch }) => {
-    const guestFavs = getGuestCart();
+  async (userId: number, { dispatch }) => {
+    const guestCart = getGuestCart();
+    // console.log(guestCart)
     
     // Dispatch all add operations without waiting for each one
-    guestFavs.forEach(productId => {
+    guestCart.forEach(productId => {
       const quantity = 1;
-      dispatch(addItemToCart({ cartId, productId, quantity}));
+      dispatch(addItemToCart({ userId, productId, quantity}));
     });
 
     clearGuestCart();
-    return { mergedCount: guestFavs.length };
+    return { mergedCount: guestCart.length };
   }
 );
 

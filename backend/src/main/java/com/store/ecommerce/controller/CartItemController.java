@@ -1,5 +1,6 @@
 package com.store.ecommerce.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,17 +13,14 @@ import com.store.ecommerce.service.CartItemService;
 @RestController
 @RequestMapping("/cart-items")
 public class CartItemController {
-    private final CartItemService cartItemService;
+    @Autowired
+    private CartItemService cartItemService;
 
-    public CartItemController(CartItemService cartItemService) {
-        this.cartItemService = cartItemService;
-    }
-
-    @PostMapping("/add/{cartId}")
+    @PostMapping("/add/{userId}")
     public ResponseEntity<CartItemResponse> addItemToCart(
-            @PathVariable Long cartId,
+            @PathVariable Long userId,
             @RequestBody CartItemRequest req) {
-        CartItem addedItem = cartItemService.addItemToCart(cartId, req.getProductId(), req.getQuantity());
+        CartItem addedItem = cartItemService.addItemToCart(userId, req.getProductId(), req.getQuantity());
         CartItemResponse response = new CartItemResponse(addedItem);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

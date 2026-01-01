@@ -33,6 +33,7 @@ export default function Home() {
 
   const isInCart = (productId: number): boolean => {
     let flag = false;
+    // if there is a cart and the cart contians items then return that items
     if (isAuthenticated && cart?.items) {
       flag = cart?.items.some(item => item.product.id === productId);
     }else{

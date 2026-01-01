@@ -1,5 +1,7 @@
 package com.store.ecommerce.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.store.ecommerce.model.Cart;
@@ -32,8 +34,14 @@ public class CartService {
         return cartRepo.findById(cartId).orElseThrow(() -> new RuntimeException("Cart not found!"));
     }
 
+    public Optional<Cart> getCardByIdOptional(Long cartId){
+        return cartRepo.findById(cartId);
+    }
+
     public Cart getCartByUserId(Long userId){
-        return cartRepo.findByUser_id(userId);
+        // if the cart was empty intizlize one and return it because every user must have a cart
+        return cartRepo.findByUser_id(userId)
+                        .orElseGet(() -> createCart(userId));
     }
 
     public void updateCartTotal(Long cartId) {

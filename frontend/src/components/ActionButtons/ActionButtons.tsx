@@ -74,7 +74,7 @@ function ActionButtons({productid, isFav, inCart, onFavToggled}: IActionButtonsP
                     }else{
                     const quantity = 1;
                     await dispatch(addItemToCart({
-                        cartId: cart?.id, 
+                        userId: selectedUser?.id, 
                         productId: productid,
                         quantity: quantity
                     })).unwrap();   

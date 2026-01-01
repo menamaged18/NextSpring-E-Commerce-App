@@ -1,7 +1,7 @@
 "use client";
-import { getGuestCart, clearGuestCart, itemToggleGuestCart } from "@/utils/addTo";
+import { getGuestCart, clearGuestCart } from "@/utils/addTo";
 import { useAppSelector, useAppDispatch } from "@/Hooks/reduxHooks";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react"; // Add useState
 import { useRouter } from 'next/navigation';
 import { usePrevious } from '@/Hooks/usePrevious';
 import HorizontalCard from "@/components/Card/HorizontalCard";
@@ -15,89 +15,123 @@ function Page() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { products, loading: productLoading, error } = useAppSelector((state) => state.BEProduct);
-  const { cart, loading:cartLoading } = useAppSelector(state => state.cart);
+  const { cart, loading: cartLoading } = useAppSelector(state => state.cart);
   const { selectedUser, isAuthenticated } = useAppSelector(state => state.user);
+  
+  const hasMergedRef = useRef(false);
+  const [isMerging, setIsMerging] = useState(false); 
 
   // clear products state --> to replace the state with the Cart items ones  
-  useEffect(()=> {
+  useEffect(() => {
     dispatch(clearProducts())
   }, [])
 
-  const overallLoading = cartLoading || productLoading;
+  const overallLoading = cartLoading || productLoading || isMerging;
 
-  const previsAuthenticated = usePrevious(isAuthenticated);
+  const prevIsAuthenticated = usePrevious(isAuthenticated);
 
   // if the user logs out in the cart page direct him to home page 
   useEffect(() => {
-    if (previsAuthenticated === true && isAuthenticated === false) {
+    if (prevIsAuthenticated === true && isAuthenticated === false) {
       router.push("/");
     }
-  }, [isAuthenticated, previsAuthenticated, selectedUser?.username, router]);
+  }, [isAuthenticated, prevIsAuthenticated, selectedUser?.name, router]);
 
   useEffect(() => {
-    // 1. Get the carts *inside* the effect
+    // Reset merge flag when user logs out
+    if (prevIsAuthenticated === true && isAuthenticated === false) {
+      hasMergedRef.current = false;
+    }
+  }, [isAuthenticated, prevIsAuthenticated]);
+
+  useEffect(() => {
+    // Skip if merge has already been attempted
+    if (hasMergedRef.current) return;
+
     const guestCart = getGuestCart();
     const hasGuestCart = guestCart.length > 0;
 
     // Case 1: User is LOGGED IN
-    if (isAuthenticated) {
-      // const userCart = getUserCart(selectedUser?.username);
-
+    if (isAuthenticated && selectedUser?.id) {
       // Sub-case 1.1: User is logged in AND has a guest cart
       if (hasGuestCart) {
+        hasMergedRef.current = true; // Mark as attempted
+        
         // Ask the user to merge
         if (window.confirm("Merge guest cart with your cart?")) {
-          if(selectedUser?.id){
-            mergeUserCartWithGuestCart(selectedUser?.id);
-            dispatch(fetchUserCart(selectedUser?.id));
-          }
+          setIsMerging(true);
+          dispatch(mergeUserCartWithGuestCart(selectedUser.id))
+            .unwrap()
+            .then(() => {
+              // After merge is complete, fetch the updated cart
+              return dispatch(fetchUserCart(selectedUser.id)).unwrap();
+            })
+            .then(() => {
+              setIsMerging(false);
+            })
+            .catch((error) => {
+              console.error("Merge failed:", error);
+              setIsMerging(false);
+              // Still fetch cart on error
+              dispatch(fetchUserCart(selectedUser.id));
+            });
         } else {
           clearGuestCart();
-          selectedUser?.id && dispatch(fetchUserCart(selectedUser?.id));
+          dispatch(fetchUserCart(selectedUser.id));
         }
       } else {
         // User is logged in, NO guest cart.
-        selectedUser?.id && dispatch(fetchUserCart(selectedUser?.id));
+        hasMergedRef.current = true;
+        dispatch(fetchUserCart(selectedUser.id));
       }
-    } else {
+    } else if (!isAuthenticated) {
       // Case 2: User is NOT LOGGED IN
       dispatch(getProductsByIds(guestCart));
     }
-    
-  }, [isAuthenticated, selectedUser?.username, dispatch]);
+  }, [isAuthenticated, selectedUser?.id, dispatch]);
+
+  // Add this effect to refetch cart when merge completes
+  useEffect(() => {
+    if (isAuthenticated && selectedUser?.id && !isMerging && hasMergedRef.current) {
+      // Refetch cart to ensure we have the latest data
+      dispatch(fetchUserCart(selectedUser.id));
+    }
+  }, [isMerging, isAuthenticated, selectedUser?.id, dispatch]);
 
   const handleInCartToggle = async () => {
-    if(isAuthenticated){
-      selectedUser?.id && dispatch(fetchUserCart(selectedUser?.id));
-    }else{
+    if (isAuthenticated && selectedUser?.id) {
+      dispatch(fetchUserCart(selectedUser.id));
+    } else {
       dispatch(getProductsByIds(getGuestCart()));
     }
   };
 
-  const cartProducts = cart?.items.map(item => item.product).filter(Boolean);
+  const cartProducts = cart?.items?.map(item => item.product).filter(Boolean) || [];
 
   const productlist = (isAuthenticated && cartProducts && cartProducts.length > 0)
-      ? cartProducts
-      : (!isAuthenticated && products.length > 0)
-        ? products
-        : null;
+    ? cartProducts
+    : (!isAuthenticated && products.length > 0)
+      ? products
+      : null;
 
   // Calculate subtotal
   const subtotal = productlist
-      ? productlist.reduce((sum, product) => sum + product.price, 0)
-      : 0;
+    ? productlist.reduce((sum, product) => sum + product.price, 0)
+    : 0;
 
   let content;
-  
+
   if (overallLoading) {
     content = (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
         <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-300 border-t-blue-500"></div>
-        <p className="text-xl text-gray-600 mt-6 font-semibold">Loading your cart...</p>
+        <p className="text-xl text-gray-600 mt-6 font-semibold">
+          {isMerging ? "Merging your cart..." : "Loading your cart..."}
+        </p>
       </div>
     );
   }
-   
+
   if (error) {
     content = (
       <div className="flex flex-col items-center justify-center p-10 rounded-xl bg-red-50 border border-red-200 shadow-md">
@@ -137,7 +171,7 @@ function Page() {
               <h2 className="text-2xl font-bold text-gray-700 mb-6 border-b pb-4">Items</h2>
               <div className="space-y-6 gap-5">
                 {productlist.map((product) => (
-                  <HorizontalCard 
+                  <HorizontalCard
                     key={product.id}
                     product={product}
                     height={380}
@@ -148,7 +182,7 @@ function Page() {
               </div>
             </div>
           </div>
-          
+
           {/* Order Summary Sidebar */}
           <div className="lg:col-span-1">
             <CheckoutSummary subtotal={subtotal} />
